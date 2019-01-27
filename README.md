@@ -180,7 +180,7 @@ class Settings {
 Class inheritance can be exploited to compose schemas using shared fields that are built into the children. Although useful, overuse of inheritance may make your models more difficult to reason about.
 
 ```typescript
-class Person {
+class Person extends Strongoose {
   @field({ required: true })
   name: string
 
@@ -199,7 +199,7 @@ class Friend extends Person {
 }
 ```
 
-Base classes may be either plain or extend on Strongoose, based on how you're gonna use them. Extending Strongoose means they may be used as models and represent collections. For most cases though, plain classes should be the right choice.
+Base classes need to extend Strongoose, even if they're not going to be used as concrete models. That way, children can inherit methods like `getModel()` or `setModel()`.
 
 ## Initializing Models
 
