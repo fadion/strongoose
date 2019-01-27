@@ -1,0 +1,31 @@
+{
+  "name": "strongoose",
+  "version": "0.1.0",
+  "description": "Mongoose meets Typescript",
+  "author": "Fadion Dashi <Fadion Dashi>",
+  "license": "MIT",
+  "keywords": [
+    "mongoose",
+    "typescript",
+    "model"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fadion/strongoose.git"
+  },
+  "types": "lib/strongoose.d.ts",
+  "typings": "lib/strongoose.d.ts",
+  "main": "lib/strongoose.js",
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tslint --project tsconfig.json"
+  },
+  "peerDependencies": {
+    "mongoose": "^5.0.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.4"
+  }
+}
