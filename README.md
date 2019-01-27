@@ -72,7 +72,7 @@ email: string
 
 ## Schema
 
-The `@schema` operator is an optional object of schema-wide settings, [listed in here](https://mongoosejs.com/docs/api.html#schema_Schema). Typically, it may look like this:
+The `@schema` decorator is an optional object of schema-wide settings, [listed in here](https://mongoosejs.com/docs/api.html#schema_Schema). Typically, it may look like this:
 
 ```typescript
 @schema({ collection: 'docs', timestamps: true, autoIndex: false })
@@ -84,7 +84,7 @@ class Document extends Strongoose {
 
 ## Virtual, Methods, and Statics
 
-Mongoose supports them either via schema methods, or by passing a plain class to [Schema.loadClass](https://mongoosejs.com/docs/api.html#schema_Schema-loadClass). The latter is specifically problematic for Typescript, which has no idea of what `this` refers to or where are the field names coming from. Strongoose makes it as easy as defining methods.
+Mongoose supports them either via schema methods, or by passing a plain class to [Schema.loadClass](https://mongoosejs.com/docs/api.html#schema_Schema-loadClass). The latter is specifically problematic for Typescript, which has no idea where the field names are coming from. Strongoose makes it as easy as defining methods.
 
 ```typescript
 class Book extends Strongoose {
@@ -110,7 +110,7 @@ class Book extends Strongoose {
 
 ## References
 
-References are handled by passing in a model as type, which automatically builds the correct schema: `{ type: mongoose.Schema.Types.ObjectId, ref: 'ModelName' }`. Returning to the firstmost example, the code below adds a reference to an array of `Team` on `User.teams`.
+References are handled by passing in a model as type, which automatically builds the correct schema. Returning to the firstmost example, the code below adds a reference to an array of `Team` on `User.teams`.
 
 ```typescript
 class User extends Strongoose {
@@ -126,9 +126,21 @@ class Team extends Strongoose {
 
 The only ceveat is the `ref` option passed to `@field`, as it informs Strongoose that you're trying to build a reference, not a subdocument.
 
+The above code is equivalent to these schemas in Mongoose:
+
+```javascript
+const team = new mongoose.Schema({
+  name: string
+})
+
+const user = new mongoose.Schema({
+  teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team' }]
+})
+```
+
 ## Subdocuments
 
-Subdocuments are handles as a simplified case of references. It still infers the schema from the type, but it doesn't expect a `ref` option and the subschema classes don't need to extend Strongoose or be initialized as a model. They're simply used to build the schema and aren't evaluated.
+Subdocuments are handled as a simplified case of references. It still infers the schema from the type, but it doesn't expect a `ref` option and the subschema classes don't need to extend Strongoose or be initialized as a model. They're simply used to build the schema and aren't evaluated.
 
 ```typescript
 class User extends Strongoose {
@@ -145,7 +157,7 @@ class Settings {
 }
 ```
 
-That's equivalent to this schema in Mongoose:
+That's equivalent to these schemas in Mongoose:
 
 ```javascript
 const settingsSchema = new mongoose.Schema({
@@ -177,7 +189,7 @@ class Settings {
 
 ## Inheritance
 
-Class inheritance can be exploited to compose schemas using shared fields that are built into the children. Although useful, overuse of inheritance may make your models more difficult to reason about.
+Class inheritance can be exploited to compose schemas using shared fields that are built into the children. All the children will receive them as if they were originally declared into them. Just be aware of the implications of such strategy, or you'll end up with model definitions that are difficult to reason about. For simple and common fields, it makes total sense though.
 
 ```typescript
 class Person extends Strongoose {
@@ -203,7 +215,7 @@ Base classes need to extend Strongoose, even if they're not going to be used as 
 
 ## Initializing Models
 
-Before being usable as Mongoose models, Strongoose classes need to be initialized. This is done fairly easy using the `getModel()` method on instances:
+Before being usable as Mongoose models, Strongoose classes need to be initialized. This is done using the `getModel()` method on instances:
 
 ```typescript
 class User extends Strongoose {
