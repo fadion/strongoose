@@ -13,7 +13,7 @@ export type FieldDefaultFunction = (...args: any[]) => any
 
 export interface FieldOptions {
   required?: boolean | FieldRequiredFunction
-  default?: FieldDefaultFunction
+  default?: boolean | FieldDefaultFunction
   validate?: FieldValidator | FieldValidator[]
   select?: boolean
   alias?: string
