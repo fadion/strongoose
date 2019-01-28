@@ -1,6 +1,10 @@
 import * as mongoose from 'mongoose'
 import props from 'props'
 
+export * from './errors'
+export * from './field'
+export * from './schema'
+
 export type DocumentType<T> = mongoose.Document & T
 export type ModelType<T> = mongoose.Model<DocumentType<T>> & T
 
