@@ -238,3 +238,4 @@ Before going for version 1.0, I plan on at least these features:
 - Support Enums.
 - Automated tests.
 - Real-world testing on my own projects.
+- ~~Allow using an existing connection or mongoose instance.~~

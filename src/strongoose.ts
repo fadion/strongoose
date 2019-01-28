@@ -8,18 +8,23 @@ export * from './schema'
 export type DocumentType<T> = mongoose.Document & T
 export type ModelType<T> = mongoose.Model<DocumentType<T>> & T
 
+export interface GetModelOptions {
+  existingMongoose?: mongoose.Mongoose
+  existingConnection?: mongoose.Connection
+}
+
 export class Strongoose {
-  getModel<T>(instance: T) {
+  getModel<T>(instance: T, { existingMongoose, existingConnection }: GetModelOptions = {}) {
     const name = this.constructor.name
     // Build and save the model so it can be reused
     // on subsequent requests.
     if (!props.models[name])
-      this.setModel(instance)
+      this.setModel(instance, { existingMongoose, existingConnection })
 
     return props.models[name] as ModelType<this> & T
   }
 
-  setModel<T>(instance: T) {
+  setModel<T>(instance: T, { existingMongoose, existingConnection }: GetModelOptions = {}) {
     const name = this.constructor.name
     let schema = this.buildSchema(name)
     let parent = Object.getPrototypeOf(this.constructor.prototype).constructor
@@ -31,7 +36,14 @@ export class Strongoose {
       parent = Object.getPrototypeOf(parent.prototype).constructor
     }
 
-    props.models[name] = mongoose.model(name, schema)
+    let model = mongoose.model.bind(mongoose)
+    if (existingConnection) {
+      model = existingConnection.model.bind(existingConnection)
+    } else if (existingMongoose) {
+      model = existingMongoose.model.bind(existingMongoose)
+    }
+
+    props.models[name] = model(name, schema)
 
     return props.models[name] as ModelType<this> & T
   }

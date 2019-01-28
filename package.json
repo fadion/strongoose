@@ -1,6 +1,6 @@
 {
   "name": "strongoose",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Mongoose meets Typescript",
   "author": "Fadion Dashi <Fadion Dashi>",
   "license": "MIT",
