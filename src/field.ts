@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import * as mongoose from 'mongoose'
 import props from './props'
-import { UnknownTypeError, ArrayMissingTypeError, UnsupportedTypeError, StringValidatorsError, NumberValidatorsError } from 'errors'
+import { UnknownTypeError, ArrayMissingTypeError, UnsupportedTypeError, StringValidatorsError, NumberValidatorsError } from './errors'
 import { isSupportedType } from './util'
 
 export type FieldValidatorFunction = (value: any) => boolean | Promise<boolean>

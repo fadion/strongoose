@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import props from 'props'
+import props from './props'
 
 export * from './errors'
 export * from './field'
